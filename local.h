@@ -77,21 +77,21 @@ FILE *fp;
  * En esta seccion se declarar como constantes	 *
  * los eventos (entradas) que recibe el programa *
  *************************************************/
-#define ENTRADA_0  0
-#define ENTRADA_2  2
-#define ENTRADA_3  3
-#define ENTRADA_4  4
-#define ENTRADA_5  5
-#define ENTRADA_6  6
-#define ENTRADA_7  7
-#define ENTRADA_9   9
-#define ENTRADA_10  10
-#define ENTRADA_12   12
-#define ENTRADA_13   13
-#define ENTRADA_15   15
-#define ENTRADA_16   16
-#define ENTRADA_18   18
-#define Asterisco -1
+#define ENTRADA_I           0
+#define ENTRADA_i           2
+#define ENTRADA_R           3
+#define ENTRADA_C           4
+#define ENTRADA_M           5
+#define ENTRADA_P           6
+#define ENTRADA_Q           7
+#define ENTRADA_Admiracion  9
+#define ENTRADA_d           10
+#define ENTRADA_Gato        12
+#define ENTRADA_D           13
+#define ENTRADA_Dinero      15
+#define ENTRADA_Z           16
+#define ENTRADA_p           18
+#define Asterisco           -1
 
 //Coment
 
@@ -105,3 +105,4 @@ FILE *fp;
 #define RetirandoDinero     3
 #define CambiandoPassword   4
 #define ComprobandoPassword 5
+

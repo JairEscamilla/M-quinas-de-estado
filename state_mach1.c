@@ -18,7 +18,7 @@
 EVENT event;
 int state;
 char buf[BUFFER];
-int Salir=0;
+int Opcion=0,Login=0;
 TipoLista *Inicio=NULL;
 char Usuario[100],Password[100];
 
@@ -28,24 +28,27 @@ void getevent(void);
 
 int Creditos(void);
 int CargarBase(void);
+int Login_Admin (void);
+int Registro (void);
 int Imprimir(void);
-int SolicitarInfo_Buscar_Coincidencia (void);
+int SolicitarInfo_BuscarCoincidencia_SesionIniciada (void);
 int MsgIngresarDinero (void);
 int MsgRetirarDinero (void);
 int MostrarSaldo_MsgMenu (void);
 int MostrarHistorial_MsgMenu (void);
 int MsgCambiarPassword (void);
 int MsgSalir_LimpiarLista (void);
-int Msg_Menu (void);
-int SumarDinero_Actualizar_Historial_MsgMenu (void);
-int PedirCantidad (void);
+int MsgMenu (void);
+int SumarDinero_ActualizarHistorial_MsgMenu (void);
+int PedirCantidad_SaldoSuficiente (void);
 int PedirPassword (void);
-int VolverAPedirPassword (void);
+int VolverAPedirPassword_Coinciden (void);
 int SesionFallida (void);
-int MsgSaldoInsuficiente (void);
-int MsgRetiroExitoso (void);
-int MsgErrorCambioPassword (void);
-int MsgPasswordCambiada (void);
+int MsgSaldoInsuficiente_MsgMenu (void);
+int MsgRetiroExitoso_RestarSaldo_ActualizarHistorial_MsgMenu (void);
+int MsgErrorCambioPassword_MsgMenu (void);
+int MsgPasswordCambiada_ActualizarPassword_MsgMenu (void);
+int Borrar_Lista(void);
 int nul(void);
 
 
@@ -92,17 +95,61 @@ int main(int argc, char **argv)
       if(argc==2 && (strcmp(argv[1],"-c"))==0)
 	{
 	  CargarBase();
-	  Imprimir();
+	  //Imprimir();
 	  do
 	    {
+	      system("clear");
 	      printf("Bienvenido al modo de administrador\n");
 	      printf("Por favor ingrese:\n");
 	      printf("Usuario: ");
 	      scanf (" %[^\n]", Usuario);
-	      printf("\nContraseña: ");
+	      printf("Contraseña: ");
 	      scanf (" %[^\n]", Password);
-	      printf("\n");
-	    }while(Salir==0);
+	      printf("Verificando...\n");
+	      system("sleep 0.5");
+	      Login_Admin();
+	      if(Login==1)
+		{
+		  system("clear");
+		  printf("Bienvenido al módulo de administrador\n");
+		  printf("Menú:\n");
+		  printf("1.- Dar de alta cuentahabientes\n");
+		  printf("2.- Salir\n");
+		  printf("Ingrese la opción que desea realizar\n ");	     
+		  scanf(" %d", &Opcion);
+		  system("clear");
+		  switch(Opcion)
+		    {
+		    case 1:
+		      printf("Ingrese nombre del cuentahabiente\n");
+		      scanf(" %[^\n]",Usuario);
+		      printf("Ingrese contraseña del cuentahabiente");
+		      scanf(" %[^\n]",Password);
+		      Registro();
+		      break;
+		    case 2:
+		      printf("Saliendo del programa\n");
+		      Borrar_Lista();
+		      break;
+		    default:
+		      printf("Opción Inválida\n");
+		      break;
+		    }
+		  printf("Presione Enter para continuar...\n");
+		  __fpurge(stdin);
+		  getchar();		  
+		}
+	      else
+		{
+		  system("clear");
+		  printf("Usuario y/o contraseña incorrecta\n");
+		  printf("Intente de nuevo.\n");
+		  printf("Presione Enter para continuar...\n");
+		  __fpurge(stdin);
+		  getchar();	
+		}
+	      
+	    }while(Opcion==0);
 	}
       else
 	{
@@ -119,7 +166,6 @@ void initialise(void)
   printf("Bienvenido\n");
 }
 
-
 void getevent(void)
 {
   char *ptmp;
@@ -133,46 +179,46 @@ void getevent(void)
   switch (buf[0])
     {
     case 'I' :
-      event.etype=ENTRADA_0;
+      event.etype=ENTRADA_I;
       break;
     case 'i' :
-      event.etype=ENTRADA_2;
+      event.etype=ENTRADA_i;
       break;
     case 'R' :
-      event.etype=ENTRADA_3;
+      event.etype=ENTRADA_R;
       break;
     case 'C':
-      event.etype=ENTRADA_4;
+      event.etype=ENTRADA_C;
       break;
     case 'M':
-      event.etype=ENTRADA_5;
+      event.etype=ENTRADA_M;
       break;
     case 'P':
-      event.etype=ENTRADA_6;
+      event.etype=ENTRADA_P;
       break;
     case 'Q':
-      event.etype=ENTRADA_7;
+      event.etype=ENTRADA_Q;
       break;
     case '!':
-      event.etype=ENTRADA_9;
+      event.etype=ENTRADA_Admiracion;
       break;
     case 'd':
-      event.etype=ENTRADA_10;
+      event.etype=ENTRADA_d;
       break;
     case '#':
-      event.etype=ENTRADA_12;
+      event.etype=ENTRADA_Gato;
       break;
     case 'D':
-      event.etype=ENTRADA_13;
+      event.etype=ENTRADA_D;
       break;
     case '$':
-      event.etype=ENTRADA_15;
+      event.etype=ENTRADA_Dinero;
       break;
     case 'Z':
-      event.etype=ENTRADA_16;
+      event.etype=ENTRADA_Z;
       break;
     case 'p':
-      event.etype=ENTRADA_18;
+      event.etype=ENTRADA_p;
       break;
     default:
       event.etype=-1;
@@ -233,103 +279,117 @@ int CargarBase(void)
 	}
     }
 }
- 
- int Imprimir(void)
- {
-   TipoLista *temp;
-   temp=Inicio;
-   while(temp!=NULL)
-     {
-       printf("%s\n", temp->Usuario);
-       printf("%s\n", temp->Password);
-       temp=temp->sig;
-     }
- }
 
-int SolicitarInfo_Buscar_Coincidencia (void)
+int Login_Admin(void)
 {
-  printf("En proceso\n");
+  TipoLista *temp;
+  temp=Inicio;
+    while(temp != NULL)
+      {
+	if(strcmp(Usuario,temp->Usuario)==0 && strcmp(Password,temp->Password)==0)
+	  Login=1;
+	temp = temp-> sig;
+      }
+}
+
+int Registro (void)
+{
+  printf("Generar cuenta:\n");
+  
+}
+ 
+int Imprimir(void)
+{
+  TipoLista *temp;
+  temp=Inicio;
+  while(temp!=NULL)
+    {
+      printf("%s\n", temp->Usuario);
+      printf("%s\n", temp->Password);
+      temp=temp->sig;
+    }
+}
+
+int SolicitarInfo_BuscarCoincidencia_SesionIniciada (void)
+{
 }
 
 int MsgIngresarDinero (void)
 {
-  printf("En proceso\n");
 }
 
 int MsgRetirarDinero (void)
 {
-  printf("En proceso\n");
 }
 
 int MostrarSaldo_MsgMenu (void)
 {
-  printf("En proceso\n");
 }
 
 int MostrarHistorial_MsgMenu (void)
 {
-  printf("En proceso\n");
 }
 
 int MsgCambiarPassword (void)
 {
-  printf("En proceso\n");
 }
 
 int MsgSalir_LimpiarLista (void)
 {
-  printf("En proceso\n");
 }
 
-int Msg_Menu (void)
+int MsgMenu (void)
 {
-  printf("En proceso\n");
 }
 
-int SumarDinero_Actualizar_Historial_MsgMenu (void)
+int SumarDinero_ActualizarHistorial_MsgMenu (void)
 {
-  printf("En proceso\n");
 }
 
-int PedirCantidad (void)
+int PedirCantidad_SaldoSuficiente (void)
 {
-  printf("En proceso\n");
 }
 
 int PedirPassword (void)
 {
-  printf("En proceso\n");
 }
 
-int VolverAPedirPassword (void)
+int VolverAPedirPassword_Coinciden (void)
 {
-  printf("En proceso\n");
 }
 
 int SesionFallida (void)
 {
-  printf("En proceso\n");
-}
-int MsgSaldoInsuficiente (void)
-{
-  printf("En proceso\n");
-}
-int MsgRetiroExitoso (void)
-{
-  printf("En proceso\n");
 }
 
-int MsgErrorCambioPassword (void)
+int MsgSaldoInsuficiente_MsgMenu (void)
 {
-  printf("En proceso\n");
 }
 
-int MsgPasswordCambiada (void)
+int MsgRetiroExitoso_RestarSaldo_ActualizarHistorial_MsgMenu (void)
 {
-  printf("En proceso\n");
 }
 
+int MsgErrorCambioPassword_MsgMenu (void)
+{
+}
+
+int MsgPasswordCambiada_ActualizarPassword_MsgMenu (void)
+{
+}
+ 
+int Borrar_Lista(void)
+{
+  TipoLista *temp;
+  temp=Inicio;
+  while(temp!=NULL)
+    {
+      Inicio=Inicio->sig;
+      free(temp);
+      temp=Inicio;
+    }
+}
+ 
 int nul(void)
 {
-  printf("Opción inválida\n");
 }
