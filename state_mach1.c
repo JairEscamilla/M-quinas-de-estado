@@ -284,12 +284,12 @@ int Login_Admin(void)
 {
   TipoLista *temp;
   temp=Inicio;
-    while(temp != NULL)
-      {
-	if(strcmp(Usuario,temp->Usuario)==0 && strcmp(Password,temp->Password)==0)
-	  Login=1;
-	temp = temp-> sig;
-      }
+  while(temp != NULL)
+    {
+      if(strcmp(Usuario,temp->Usuario)==0 && strcmp(Password,temp->Password)==0)
+	Login=1;
+      temp = temp-> sig;
+    }
 }
 
 int Registro (void)
