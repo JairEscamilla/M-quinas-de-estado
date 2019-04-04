@@ -80,6 +80,7 @@ AUX_TAB aux_table[]={
   { MsgErrorCambioPassword, -1,      Atendiendo},
   { MsgPasswordCambiada,    -1,      Atendiendo},
 };
+//Coment
 
 /*************** TABLA DE ESTADOS ***************/
 STATE_TAB state_table[]={

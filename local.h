@@ -93,7 +93,7 @@ FILE *fp;
 #define ENTRADA_18   18
 #define Asterisco -1
 
-
+//Coment
 
 /********************* ESTADOS ******************
  * En esta seccion se declarar como constantes	*

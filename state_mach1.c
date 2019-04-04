@@ -5,6 +5,7 @@
  *		de maquina de estados.			 	*
  *								*
  ****************************************************************/
+//Coment
 
 /*************** ARCHIVOS DE INCLUSION ***************/
 #include <stdio.h>
