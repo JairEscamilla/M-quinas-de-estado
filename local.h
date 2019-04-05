@@ -63,6 +63,7 @@ typedef struct state_tab_s STATE_TAB;
 typedef struct def_Lista
 {
   char Usuario[100],Password[100];
+  long long int NumCuenta,Saldo;  
   struct def_Lista *sig;
 }TipoLista;
 
