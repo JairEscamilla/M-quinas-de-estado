@@ -20,10 +20,14 @@ EVENT event;
 int state;
 char buf[BUFFER];
 char Parametro[10],NumCuenta[20],Bitacora[100];
-int Opcion=0,Login=0,Leido=0;
-TipoLista *Inicio=NULL;
-char Usuario[100],Password[100];
+// Parametro -> Copia argumento de terminal "-c" para verificar si es admin o no para CargarBase.
+char Usuario[100],Password[100], NewPassword[100]; //NewPassword -> Utilizada para cambiar la contraseña.
+int Opcion=0,Login=0,Leido=0,Dinero;
+// Opcion -> Switch Menú Admin. // Login -> Permite Entrar al usuario e identificar si es la primera ejecución.
+// Leido-> Verifica si la carga de archivo se hizo, para no cargar más elementos en las lista dinámica.
 long long int Saldo,Cuenta;
+TipoLista *Inicio=NULL;
+//Las demás variables globales son utilizadas a lo largo del programa.
 
 /*************** PROTOTIPOS DE FUNCION ***************/
 void initialise(void);
@@ -106,36 +110,35 @@ int main(int argc, char **argv)
 	{
 	  strcpy(Parametro,argv[1]);
 	  CargarBase();
-	  printf("Hola");
 	  do
 	    {
-	      	  system("clear");
-		  printf("Bienvenido al módulo de administrador\n");
-		  printf("Menú:\n");
-		  printf("1.- Dar de alta cuentahabientes\n");
-		  printf("2.- Salir y Guardar Cambios\n");
-		  printf("Ingrese la opción que desea realizar\n ");
-		  scanf(" %d", &Opcion);
-		  system("clear");
-		  switch(Opcion)
-		    {
-		    case 1:
-		      Registro();
-		      break;
-		    case 2:
-		      GuardarUsuarios();
-		      printf("Se han guardado los datos correctamente\n");
-		      printf("Saliendo del programa...\n");
-		      Borrar_Lista();
-		      exit(0);
-		      break;
-		    default:
-		      printf("Opción Inválida\n");
-		      break;
-		    }
-		  printf("Presione Enter para continuar...\n");
-		  __fpurge(stdin);
-		  getchar();		  
+	      system("clear");
+	      printf("Bienvenido al módulo de administrador\n");
+	      printf("Menú:\n");
+	      printf("1.- Dar de alta cuentahabientes\n");
+	      printf("2.- Salir y Guardar Cambios\n");
+	      printf("Ingrese la opción que desea realizar\n ");
+	      scanf(" %d", &Opcion);
+	      system("clear");
+	      switch(Opcion)
+		{
+		case 1:
+		  Registro();
+		  break;
+		case 2:
+		  GuardarUsuarios();
+		  printf("Se han guardado los datos correctamente\n");
+		  printf("Saliendo del programa...\n");
+		  Borrar_Lista();
+		  exit(0);
+		  break;
+		default:
+		  printf("Opción Inválida\n");
+		  break;
+		}
+	      printf("Presione Enter para continuar...\n");
+	      __fpurge(stdin);
+	      getchar();		  
 	    }while(Opcion!=2);
 	}
       else
@@ -302,6 +305,7 @@ int Login_Cajero(void)
     {
       if(strcmp(Usuario,temp->Usuario)==0 && strcmp(Password,temp->Password)==0)
 	{
+	  Saldo=temp->Saldo;
 	  Login=1;
 	  strcpy(NumCuenta,temp->NumCuenta);
 	  Cuenta-=1;
@@ -377,8 +381,8 @@ int SolicitarInfo_BuscarCoincidencia_SesionIniciada (void)
   if(Login==1)
     {
       printf("Sesión Iniciada Exitosamente\n\n");
-      system("sleep 1");
-	return 1; 
+      system("sleep 0.6");
+      return 1; 
     }
   else
     return 0;
@@ -395,18 +399,54 @@ int MsgIngresarDinero (void)
 
 int MsgRetirarDinero (void)
 {
+  system("clear");
+  printf("Accion: Retirar Dinero\n\n");
+  printf("Retirar Dinero con D\n");
+  printf("Cancelar acción con #\n\n");
+  printf("Opcion: ");
 }
 
 int MostrarSaldo_MsgMenu (void)
 {
+  system("clear");
+  printf("Accion: Mostrar Saldo\n\n");
+  printf("Su saldo actual es de: $%lld\n",Saldo);
+  printf("Presione Enter para continuar...\n");
+  __fpurge(stdin);
+  getchar();
+  MsgMenu();
 }
 
 int MostrarHistorial_MsgMenu (void)
 {
+  FILE *Archivo;
+  char Temp[100];
+  system("clear");
+  strcpy(Temp,"Cliente_");
+  strcat(Temp,NumCuenta);
+  strcat(Temp,".txt");
+  printf("Accion: Mostrar Movimientos.\n\n");
+  printf("Historial de Movimientos:\n");
+  Archivo = fopen(Temp,"rd");
+  while(fgets(Temp,99,Archivo)!=NULL)
+    {
+      Temp[strlen(Temp)-1]='\0';
+      puts(Temp);
+    }
+  fclose(Archivo);
+  printf("Presione Enter para continuar...\n");
+  __fpurge(stdin);
+  getchar();
+  MsgMenu();
 }
 
 int MsgCambiarPassword (void)
 {
+  system("clear");
+  printf("Accion: Cambiar Contraseña\n\n");
+  printf("Cambiar Contraseña con Z\n");
+  printf("Cancelar Acción con $\n");
+  printf("Opción: ");
 }
 
 int MsgSalir_LimpiarLista (void)
@@ -416,6 +456,7 @@ int MsgSalir_LimpiarLista (void)
   GuardarUsuarios();
   Borrar_Lista();
   Leido=0;
+  Login=0;
   Msg_Espera();
 }
 
@@ -442,7 +483,6 @@ int MsgMenu (void)
 int SumarDinero_ActualizarHistorial_MsgMenu (void)
 {
   TipoLista *temp;
-  int Dinero;
   time_t rawtime;
   char SaldoActual[100];
   struct tm *timeinfo;
@@ -450,17 +490,21 @@ int SumarDinero_ActualizarHistorial_MsgMenu (void)
   timeinfo = localtime(&rawtime);
   system("clear");
   temp=Inicio;
-  printf("Ingresa el monto: ");
+  printf("Ingresa el monto a ingresar: ");
   scanf(" %d",&Dinero);
   while(temp!=NULL)
     {
       if((strcmp(Usuario,temp->Usuario))==0)
 	{
 	  temp->Saldo+=Dinero;	  
-	  strftime(Bitacora,200,"Hora: %d/%m/%Y-%H:%M:%S",timeinfo);
-	  strcat(Bitacora,", Movimiento: Ingresar Movimiento, Saldo actual: ");
-	  sprintf(SaldoActual,"%lld",temp->Saldo);
-	  strcat(Bitacora,SaldoActual);
+	  Saldo=temp->Saldo;
+	  strftime(Bitacora,200,"Fecha/Hora: %d/%m/%Y - %H:%M:%S",timeinfo);
+	  strcat(Bitacora,", Movimiento: Ingresar Dinero, Monto Ingresado: ");
+	  sprintf(SaldoActual,"%d",Dinero);
+          strcat(Bitacora,SaldoActual);
+          strcat(Bitacora,", Saldo Actual: ");
+          sprintf(SaldoActual,"%lld",temp->Saldo);
+          strcat(Bitacora,SaldoActual);
 	}
       temp=temp->sig;
     }
@@ -470,14 +514,65 @@ int SumarDinero_ActualizarHistorial_MsgMenu (void)
 
 int PedirCantidad_SaldoSuficiente (void)
 {
+  TipoLista *temp;
+  time_t rawtime;
+  char SaldoActual[100];
+  struct tm *timeinfo;
+  time(&rawtime);
+  timeinfo = localtime(&rawtime);
+  temp=Inicio;
+  system("clear");
+  printf("Ingresa el monto a retirar: ");
+  scanf(" %d",&Dinero);
+  while(temp!=NULL)
+    {
+      if((strcmp(Usuario,temp->Usuario))==0)
+	{
+	  if(temp->Saldo >=Dinero)
+	    {
+	      temp->Saldo-=Dinero;
+	      Saldo=temp->Saldo;
+	      strftime(Bitacora,200,"Fecha/Hora: %d/%m/%Y - %H:%M:%S",timeinfo);
+	      strcat(Bitacora,", Movimiento: Retirar Dinero, Monto retirado: ");
+	      sprintf(SaldoActual,"%d",Dinero);
+	      strcat(Bitacora,SaldoActual);
+	      strcat(Bitacora,", Saldo Actual: ");
+	      sprintf(SaldoActual,"%lld",temp->Saldo);
+	      strcat(Bitacora,SaldoActual);
+	      return 3;
+	    }
+	  else
+	    return 2;
+
+    
+	}
+      temp=temp->sig;
+    }
 }
 
 int PedirPassword (void)
 {
+  system("clear");
+  printf("Ingrese la nueva contraseña\n");
+  scanf(" %[^\n]",NewPassword);
+  system("clear");
+  printf("Accion: Comprobando Contraseña\n\n");
+  printf("Comprobar Contraseña con p\n");
+  printf("Opción: ");
 }
 
 int VolverAPedirPassword_Coinciden (void)
 {
+  system("clear");
+  char Comprobar[100];
+  printf("Ingrese de nuevo la contraseña\n");
+  scanf(" %[^\n]",Comprobar);
+  if((strcmp(NewPassword,Comprobar))==0)
+    {
+      return 5;
+    }
+  else
+    return 4;
 }
 
 int SesionFallida (void)
@@ -492,18 +587,55 @@ int SesionFallida (void)
 
 int MsgSaldoInsuficiente_MsgMenu (void)
 {
+  system("clear");
+  printf("La operación falló, no hay saldo suficiente\n");
+  printf("Intente de nuevo\n");
+  printf("Presione Enter para continuar...\n");
+  __fpurge(stdin);
+  getchar();
+  MsgMenu();
 }
 
 int MsgRetiroExitoso_RestarSaldo_ActualizarHistorial_MsgMenu (void)
 {
+  system("clear");
+  printf("Retiro Éxitoso\n");
+  printf("Presione Enter para continuar...\n");
+  __fpurge(stdin);
+  getchar();
+  ActualizarRegistro();
+  MsgMenu();
+
 }
 
 int MsgErrorCambioPassword_MsgMenu (void)
 {
+  system("clear");
+  printf("Error, contraseñas no coinciden\n");
+  printf("Intente nuevamente\n");
+  printf("Presione Enter para continuar...\n");
+  __fpurge(stdin);
+  getchar();
+  MsgMenu();
 }
 
 int MsgPasswordCambiada_ActualizarPassword_MsgMenu (void)
 {
+  system("clear");
+  TipoLista *temp;
+  temp = Inicio;
+  while(temp!=NULL)
+    {
+      if((strcmp(Usuario,temp->Usuario))==0)
+	strcpy(temp->Password,NewPassword);
+      temp=temp->sig;
+    }
+  GuardarUsuarios();
+  printf("La contraseña se modificó éxitosamente.\n");
+  printf("Presione Enter para continuar...\n");
+  __fpurge(stdin);
+  getchar();
+  MsgMenu();
 }
 
 
