@@ -1,4 +1,0 @@
-Fecha/Hora: 06/04/2019 - 01:25:47, Movimiento: Ingresar Dinero, Monto Ingresado: 123232, Saldo Actual: 123232
-Fecha/Hora: 06/04/2019 - 01:25:52, Movimiento: Retirar Dinero, Monto retirado: 1332, Saldo Actual: 121900
-Fecha/Hora: 06/04/2019 - 01:25:59, Movimiento: Ingresar Dinero, Monto Ingresado: 998323, Saldo Actual: 1120223
-Fecha/Hora: 06/04/2019 - 01:26:09, Movimiento: Retirar Dinero, Monto retirado: 12, Saldo Actual: 1120211
