@@ -45,7 +45,7 @@ extern int nul(void);
 /*************** TABLA DE ACCION ***************/
 ACTION_TAB action_table[]={
   /*      etype                            accion                      MasAcciones       sigEdo. */
-  { ENTRADA_I,         SolicitarInfo_BuscarCoincidencia_SesionIniciada,     0,	                -1},
+  { ENTRADA_I,         SolicitarInfo_BuscarCoincidencia_SesionIniciada,     0,	                 -1},
   { Asterisco,         nul,	                                           -1,               Espera},
   { ENTRADA_i,         MsgIngresarDinero,	                           -1,     IngresandoDinero},
   { ENTRADA_R,         MsgRetirarDinero,	                           -1,      RetirandoDinero},

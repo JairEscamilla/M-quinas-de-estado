@@ -1,0 +1,4 @@
+Hora: 05/04/2019-23:41:20, Movimiento: Ingresar Movimiento, Saldo actual: 22324
+Hora: 05/04/2019-23:41:24, Movimiento: Ingresar Movimiento, Saldo actual: 13256747
+Hora: 05/04/2019-23:41:28, Movimiento: Ingresar Movimiento, Saldo actual: 13288879
+Hora: 05/04/2019-23:43:33, Movimiento: Ingresar Movimiento, Saldo actual: 13288880
