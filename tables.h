@@ -1,11 +1,11 @@
 /************************************************************************
- *									*
- * Archivo:	tables.h						*
- * Descripcion: Tablas para la maquina de estados y funciones externas	*
- *		Aqui se definen todos las tablas que se utilizan	*
- *		en el programa						*
- *									*
- ************************************************************************/
+*									*
+* Archivo:	tables.h						*
+* Descripcion: Tablas para la maquina de estados y funciones externas	*
+*		Aqui se definen todos las tablas que se utilizan	*
+*		en el programa						*
+*									*
+************************************************************************/
 
 /*************** ARCHIVOS DE INCLUSION ***************/
 #include "local.h"
@@ -13,11 +13,11 @@
 
 
 /*************** FUNCIONES EXTERNAS *********************
- * En esta seccion se declaran los encabezados de 	*
- * todas las funciones que se utilizan en las     	*
- * tablas del programa. Todas las funciones deben 	*
- * ser de tipo entero y no deben recibir parametros	*
- ********************************************************/
+* En esta seccion se declaran los encabezados de 	*
+* todas las funciones que se utilizan en las     	*
+* tablas del programa. Todas las funciones deben 	*
+* ser de tipo entero y no deben recibir parametros	*
+********************************************************/
 extern int SolicitarInfo_BuscarCoincidencia_SesionIniciada (void);
 extern int MsgIngresarDinero (void);
 extern int MsgRetirarDinero (void);
@@ -38,33 +38,33 @@ extern int MsgPasswordCambiada_ActualizarPassword_MsgMenu (void);
 extern int nul(void);
 
 /******************** TABLAS ********************
- * En esta seccion se declaran las tablas	*
- * que se van a usar en el programa		*
- ************************************************/
+* En esta seccion se declaran las tablas	*
+* que se van a usar en el programa		*
+************************************************/
 
 /*************** TABLA DE ACCION ***************/
 ACTION_TAB action_table[]={
   /*      etype                            accion                      MasAcciones       sigEdo. */
-  { ENTRADA_I,         SolicitarInfo_BuscarCoincidencia_SesionIniciada,     0,	                 -1},
-  { Asterisco,         nul,	                                           -1,               Espera},
-  { ENTRADA_i,         MsgIngresarDinero,	                           -1,     IngresandoDinero},
-  { ENTRADA_R,         MsgRetirarDinero,	                           -1,      RetirandoDinero},
-  { ENTRADA_C,         MostrarSaldo_MsgMenu,	                           -1,           Atendiendo},
-  { ENTRADA_M,         MostrarHistorial_MsgMenu,	                   -1,           Atendiendo},
-  { ENTRADA_P,         MsgCambiarPassword,	                           -1,    CambiandoPassword},
-  { ENTRADA_Q,         MsgSalir_LimpiarLista,	                           -1,               Espera},
-  { Asterisco,         nul,	                                           -1,           Atendiendo},
-  { ENTRADA_Admiracion,MsgMenu,	                                           -1,           Atendiendo},
-  { ENTRADA_d,         SumarDinero_ActualizarHistorial_MsgMenu,            -1,           Atendiendo},
-  { Asterisco,         nul,	                                           -1,     IngresandoDinero},
-  { ENTRADA_Gato,      MsgMenu,	                                           -1,           Atendiendo},
-  { ENTRADA_D,         PedirCantidad_SaldoSuficiente,	                    0,                   -1},
-  { Asterisco,         nul,	                                           -1,      RetirandoDinero},
-  { ENTRADA_Dinero,    MsgMenu,	                                           -1,           Atendiendo},
-  { ENTRADA_Z,         PedirPassword,	                                   -1,  ComprobandoPassword},
-  { Asterisco,         nul,	                                           -1,    CambiandoPassword},
-  { ENTRADA_p,         VolverAPedirPassword_Coinciden,	                    0,                   -1},
-  { Asterisco,         nul,	                                           -1,  ComprobandoPassword},
+  { ENTRADA_I,          SolicitarInfo_BuscarCoincidencia_SesionIniciada,  0,	                 -1},
+  { Asterisco,          nul,	                                           -1,               Espera},
+  { ENTRADA_i,          MsgIngresarDinero,	                             -1,     IngresandoDinero},
+  { ENTRADA_R,          MsgRetirarDinero,	                               -1,      RetirandoDinero},
+  { ENTRADA_C,          MostrarSaldo_MsgMenu,	                           -1,           Atendiendo},
+  { ENTRADA_M,          MostrarHistorial_MsgMenu,	                       -1,           Atendiendo},
+  { ENTRADA_P,          MsgCambiarPassword,	                             -1,    CambiandoPassword},
+  { ENTRADA_Q,          MsgSalir_LimpiarLista,	                         -1,               Espera},
+  { Asterisco,          nul,	                                           -1,           Atendiendo},
+  { ENTRADA_Admiracion, MsgMenu,	                                       -1,           Atendiendo},
+  { ENTRADA_d,          SumarDinero_ActualizarHistorial_MsgMenu,         -1,           Atendiendo},
+  { Asterisco,          nul,	                                           -1,     IngresandoDinero},
+  { ENTRADA_Gato,       MsgMenu,	                                       -1,           Atendiendo},
+  { ENTRADA_D,          PedirCantidad_SaldoSuficiente,	                  0,                   -1},
+  { Asterisco,          nul,	                                           -1,      RetirandoDinero},
+  { ENTRADA_Dinero,     MsgMenu,	                                       -1,           Atendiendo},
+  { ENTRADA_Z,          PedirPassword,	                                 -1,  ComprobandoPassword},
+  { Asterisco,          nul,	                                           -1,    CambiandoPassword},
+  { ENTRADA_p,          VolverAPedirPassword_Coinciden,	                  0,                   -1},
+  { Asterisco,          nul,	                                           -1,  ComprobandoPassword},
 
 
 };
@@ -73,7 +73,7 @@ ACTION_TAB action_table[]={
 AUX_TAB aux_table[]={
   /*                      accion                           bandera     sigEdo */
   { SesionFallida,                                           -1,          Espera},
-  { MsgMenu,	                                             -1,      Atendiendo},
+  { MsgMenu,	                                               -1,      Atendiendo},
   { MsgSaldoInsuficiente_MsgMenu,                            -1,      Atendiendo},
   { MsgRetiroExitoso_RestarSaldo_ActualizarHistorial_MsgMenu,-1,      Atendiendo},
   { MsgErrorCambioPassword_MsgMenu,                          -1,      Atendiendo},
