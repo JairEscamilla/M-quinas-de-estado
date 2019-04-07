@@ -221,9 +221,9 @@ int CargarBase(void){
       if(Leido==0){
         while(fscanf(Archivo," %[^\n]", User)==1){
           Nuevo = (TipoLista *)malloc(sizeof(TipoLista));
-          strcpy(Nuevo -> Usuario, User);
+          strcpy(Nuevo -> NumCuenta, User);
           fscanf(Archivo, " %[^\n]", Nuevo -> Password);
-          fscanf(Archivo, " %[^\n]", Nuevo -> NumCuenta);
+          fscanf(Archivo, " %[^\n]", Nuevo -> Usuario);
           fscanf(Archivo, " %lld", &Nuevo -> Saldo);
           Nuevo -> sig = NULL;
           if (Inicio != NULL){
@@ -246,11 +246,18 @@ int CargarBase(void){
 int Login_Cajero(void){
   TipoLista *temp;
   temp=Inicio;
+<<<<<<< HEAD
   while(temp != NULL){
     if(strcmp(Usuario,temp->Usuario)==0 && strcmp(Password,temp->Password)==0){
+=======
+  while(temp != NULL)
+  {
+    if(strcmp(NumCuenta,temp->NumCuenta)==0 && strcmp(Password,temp->Password)==0)
+    {
+      strcpy(Usuario,temp->Usuario);
+>>>>>>> a3d1150bf7a2bbd2a3e608b2624ea8eee8d19b0d
       Saldo=temp->Saldo;
       Login=1;
-      strcpy(NumCuenta,temp->NumCuenta);
       Cuenta-=1;
     }
     temp = temp-> sig;
@@ -307,10 +314,17 @@ int GuardarUsuarios (void)
   FILE *Archivo;
   temp=Inicio;
   Archivo = fopen("CuentaHabientes.txt","wt");
+<<<<<<< HEAD
   while(temp!=NULL){
     fprintf(Archivo,"%s\n",temp->Usuario);
     fprintf(Archivo,"%s\n",temp->Password);
+=======
+  while(temp!=NULL)
+  {
+>>>>>>> a3d1150bf7a2bbd2a3e608b2624ea8eee8d19b0d
     fprintf(Archivo,"%s\n",temp->NumCuenta);
+    fprintf(Archivo,"%s\n",temp->Password);
+    fprintf(Archivo,"%s\n",temp->Usuario);
     fprintf(Archivo,"%lld\n",temp->Saldo);
     temp=temp->sig;
   }
@@ -319,18 +333,28 @@ int GuardarUsuarios (void)
 
 int SolicitarInfo_BuscarCoincidencia_SesionIniciada (void){
   system("clear");
-  printf("Por favor ingrese sus datos para entrar a su cuenta:\n");
-  printf("Usuario: ");
-  scanf (" %[^\n]", Usuario);
+  printf ("\n"),
+  printf("Por favor ingrese sus datos para entrar a su cuenta:\n\n");
+  printf("Número de cuenta: ");
+  scanf (" %[^\n]", NumCuenta);
   printf("Contraseña: ");
   scanf (" %[^\n]", Password);
   printf("Verificando...\n");
   system("sleep 0.5");
   Login_Cajero();
   system("clear");
+<<<<<<< HEAD
   if(Login==1){
     printf("Sesión Iniciada Exitosamente\n\n");
     system("sleep 0.6");
+=======
+  if(Login==1)
+  {
+    printf ("\n");
+    printf("Presione Enter para continuar...\n\n");
+    __fpurge(stdin);
+    getchar();
+>>>>>>> a3d1150bf7a2bbd2a3e608b2624ea8eee8d19b0d
     return 1;
   }else
     return 0;
@@ -403,6 +427,7 @@ int MsgSalir_LimpiarLista (void){
 
 int Msg_Espera (void){
   system("clear");
+  printf ("\n");
   printf("Bienvenido a:\n\n");
   printf ("  ____                                          _ _        _ _     _         \n");
   printf (" | __ )  __ _ _ __   ___ ___     ___ __ _ _ __ (_) |_ __ _| (_)___| |_ __ _  \n");
