@@ -27,6 +27,8 @@ int Opcion=0,Login=0,Leido=0,Dinero;
 // Leido-> Verifica si la carga de archivo se hizo, para no cargar más elementos en las lista dinámica.
 long long int Saldo, Cuenta;
 TipoLista *Inicio=NULL;
+int Validacion1 = 0;
+int Validacion2 = 0;
 //Las demás variables globales son utilizadas a lo largo del programa.
 
 /*************** PROTOTIPOS DE FUNCION ***************/
@@ -61,6 +63,7 @@ int Borrar_Lista(void);
 int ActualizarRegistro (void);
 int ActualizarCuentaHabiente(void);
 int menu();
+void validacion(char Password[]);
 int nul(void);
 
 
@@ -258,7 +261,6 @@ int Login_Cajero(void){
 }
 
 int Registro (void){
-  int i;
   system("clear");
   TipoLista *Nuevo, *temp;
   temp=Inicio;
@@ -268,19 +270,12 @@ int Registro (void){
   printf("Ingrese PIN del cuentahabiente-> ");
   __fpurge(stdin);
   gets(Nuevo->Password);
-  if ((strlen (Nuevo -> Password)) != 4){ //Verificamos que el PIN introducido sea exactamente de 4 digitos
-    system ("clear");
-    printf ("El PIN de un cuentahabiente debe incluir solo 4 números.\n");
-    printf ("Solicitud invalidada.\n");
+  validacion(Nuevo->Password);
+  if(Validacion1 == 1 || Validacion2 == 1){
+    printf("El PIN debe incluir solo numeros y únicamente incluir 4 números.\n");
+    Validacion1 = 0;
+    Validacion2 = 0;
     return;
-  }
-  for (i = 0; i < 4; i ++){//Verificamos que el PIN solo contenga númeross
-    if (Nuevo -> Password [i] < '0' || Nuevo -> Password [i] > '9'){
-      system ("clear");
-      printf ("El PIN de un cuentahabiente no puede incluir símbolos o caracteres.\n");
-      printf ("Solicitud invalidada.\n");
-      return;
-    }
   }
   Nuevo->Saldo=0;
   if(Login==1){ //Si es la primera ejecución...
@@ -390,7 +385,7 @@ int MsgCambiarPassword (void){
   printf("Accion: Cambiar PIN\n\n");
   printf("\t1.- Cambiar PIN con (Z)\n");
   printf("\t2.- Cancelar Acción con ($)\n");
-  printf("Opción: ");
+  printf("Seleccionar opción: ");
 }
 
 int MsgSalir_LimpiarLista (void){
@@ -627,4 +622,15 @@ int machine(){
       }
     }
   }
+}
+
+void validacion(char Password[]){
+  system("clear");
+  if ((strlen (Password)) != 4) //Verificamos que el PIN introducido sea exactamente de 4 digitos
+    Validacion1 = 1;
+  for (int i = 0; i < 4; i ++){//Verificamos que el PIN solo contenga númeross
+    if (Password [i] < '0' || Password [i] > '9'){
+        Validacion2 = 1;
+      }
+    }
 }
