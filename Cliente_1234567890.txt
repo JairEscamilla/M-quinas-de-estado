@@ -1,0 +1,2 @@
+Fecha/Hora: 06/04/2019 - 18:26:37, Movimiento: Ingresar Dinero, Monto Ingresado: 150, Saldo Actual: 150
+Fecha/Hora: 06/04/2019 - 18:27:22, Movimiento: Retirar Dinero, Monto retirado: 150, Saldo Actual: 0

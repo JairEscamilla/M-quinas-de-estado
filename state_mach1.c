@@ -21,7 +21,7 @@ int state;
 char buf[BUFFER];
 char Parametro[10], NumCuenta[20],Bitacora[100];
 // Parametro -> Copia argumento de terminal "-c" para verificar si es admin o no para CargarBase.
-char Usuario[100], Password[100], NewPassword[100]; //NewPassword -> Utilizada para cambiar la contraseña.
+char Usuario[100], Password[100], NewPassword[100]; //NewPassword -> Utilizada para cambiar la PIN.
 int Opcion=0,Login=0,Leido=0,Dinero;
 // Opcion -> Switch Menú Admin. // Login -> Permite Entrar al usuario e identificar si es la primera ejecución.
 // Leido-> Verifica si la carga de archivo se hizo, para no cargar más elementos en las lista dinámica.
@@ -246,16 +246,9 @@ int CargarBase(void){
 int Login_Cajero(void){
   TipoLista *temp;
   temp=Inicio;
-<<<<<<< HEAD
   while(temp != NULL){
-    if(strcmp(Usuario,temp->Usuario)==0 && strcmp(Password,temp->Password)==0){
-=======
-  while(temp != NULL)
-  {
-    if(strcmp(NumCuenta,temp->NumCuenta)==0 && strcmp(Password,temp->Password)==0)
-    {
+    if(strcmp(NumCuenta,temp->NumCuenta)==0 && strcmp(Password,temp->Password)==0){
       strcpy(Usuario,temp->Usuario);
->>>>>>> a3d1150bf7a2bbd2a3e608b2624ea8eee8d19b0d
       Saldo=temp->Saldo;
       Login=1;
       Cuenta-=1;
@@ -314,14 +307,7 @@ int GuardarUsuarios (void)
   FILE *Archivo;
   temp=Inicio;
   Archivo = fopen("CuentaHabientes.txt","wt");
-<<<<<<< HEAD
   while(temp!=NULL){
-    fprintf(Archivo,"%s\n",temp->Usuario);
-    fprintf(Archivo,"%s\n",temp->Password);
-=======
-  while(temp!=NULL)
-  {
->>>>>>> a3d1150bf7a2bbd2a3e608b2624ea8eee8d19b0d
     fprintf(Archivo,"%s\n",temp->NumCuenta);
     fprintf(Archivo,"%s\n",temp->Password);
     fprintf(Archivo,"%s\n",temp->Usuario);
@@ -333,28 +319,20 @@ int GuardarUsuarios (void)
 
 int SolicitarInfo_BuscarCoincidencia_SesionIniciada (void){
   system("clear");
-  printf ("\n"),
   printf("Por favor ingrese sus datos para entrar a su cuenta:\n\n");
-  printf("Número de cuenta: ");
+  printf("Número de cuenta-> ");
   scanf (" %[^\n]", NumCuenta);
-  printf("Contraseña: ");
+  printf("PIN-> ");
   scanf (" %[^\n]", Password);
   printf("Verificando...\n");
   system("sleep 0.5");
   Login_Cajero();
   system("clear");
-<<<<<<< HEAD
   if(Login==1){
-    printf("Sesión Iniciada Exitosamente\n\n");
-    system("sleep 0.6");
-=======
-  if(Login==1)
-  {
-    printf ("\n");
-    printf("Presione Enter para continuar...\n\n");
+    printf("Ha iniciado sesión con éxito\n");
+    printf("Presione Enter para continuar...");
     __fpurge(stdin);
     getchar();
->>>>>>> a3d1150bf7a2bbd2a3e608b2624ea8eee8d19b0d
     return 1;
   }else
     return 0;
@@ -409,8 +387,8 @@ int MostrarHistorial_MsgMenu (void){
 
 int MsgCambiarPassword (void){
   system("clear");
-  printf("Accion: Cambiar Contraseña\n\n");
-  printf("Cambiar Contraseña con Z\n");
+  printf("Accion: Cambiar PIN\n\n");
+  printf("Cambiar PIN con Z\n");
   printf("Cancelar Acción con $\n");
   printf("Opción: ");
 }
@@ -427,7 +405,6 @@ int MsgSalir_LimpiarLista (void){
 
 int Msg_Espera (void){
   system("clear");
-  printf ("\n");
   printf("Bienvenido a:\n\n");
   printf ("  ____                                          _ _        _ _     _         \n");
   printf (" | __ )  __ _ _ __   ___ ___     ___ __ _ _ __ (_) |_ __ _| (_)___| |_ __ _  \n");
@@ -445,13 +422,13 @@ int Msg_Espera (void){
 int MsgMenu (void){
   system("clear");
   printf("Bienvenido %s al menú de acciones:\n\n", Usuario);
-  printf("1.- Ingresar dinero, ingrese (i)\n");
-  printf("2.- Retirar dinero, ingrese (R)\n");
-  printf("3.- Mostrar Saldo, ingrese (C)\n");
-  printf("4.- Mostrar historial, ingrese (M)\n");
-  printf("5.- Cambiar Contraseña, ingrese (P)\n");
-  printf("6.- Salir del menú, ingrese (Q)\n\n");
-  printf("Opcion: ");
+  printf("\t1.- Ingresar dinero, ingrese (i)\n");
+  printf("\t2.- Retirar dinero, ingrese (R)\n");
+  printf("\t3.- Mostrar Saldo, ingrese (C)\n");
+  printf("\t4.- Mostrar historial, ingrese (M)\n");
+  printf("\t5.- Cambiar PIN, ingrese (P)\n");
+  printf("\t6.- Salir del menú, ingrese (Q)\n\n");
+  printf("Seleccione una opcion-> ");
 }
 
 int SumarDinero_ActualizarHistorial_MsgMenu (void){
@@ -517,18 +494,18 @@ int PedirCantidad_SaldoSuficiente (void){
 
 int PedirPassword (void){
   system("clear");
-  printf("Ingrese la nueva contraseña\n");
+  printf("Ingrese la nueva PIN\n");
   scanf(" %[^\n]",NewPassword);
   system("clear");
-  printf("Accion: Comprobando Contraseña\n\n");
-  printf("Comprobar Contraseña con p\n");
+  printf("Accion: Comprobando PIN\n\n");
+  printf("Comprobar PIN con p\n");
   printf("Opción: ");
 }
 
 int VolverAPedirPassword_Coinciden (void){
   system("clear");
   char Comprobar[100];
-  printf("Ingrese de nuevo la contraseña\n");
+  printf("Ingrese de nuevo la PIN\n");
   scanf(" %[^\n]",Comprobar);
   if((strcmp(NewPassword,Comprobar))==0){
     return 5;
@@ -538,7 +515,7 @@ int VolverAPedirPassword_Coinciden (void){
 }
 
 int SesionFallida (void){
-  printf("Usuario y/o contraseña son incorrectos\n");
+  printf("Usuario y/o PIN son incorrectos\n");
   printf("Intente de nuevo\n");
   printf("Presione Enter para continuar...\n");
   __fpurge(stdin);
@@ -568,7 +545,7 @@ int MsgRetiroExitoso_RestarSaldo_ActualizarHistorial_MsgMenu (void){
 
 int MsgErrorCambioPassword_MsgMenu (void){
   system("clear");
-  printf("Error, contraseñas no coinciden\n");
+  printf("Error, PINs no coinciden\n");
   printf("Intente nuevamente\n");
   printf("Presione Enter para continuar...\n");
   __fpurge(stdin);
@@ -586,7 +563,7 @@ int MsgPasswordCambiada_ActualizarPassword_MsgMenu (void){
     temp=temp->sig;
   }
   GuardarUsuarios();
-  printf("La contraseña se modificó éxitosamente.\n");
+  printf("La PIN se modificó éxitosamente.\n");
   printf("Presione Enter para continuar...\n");
   __fpurge(stdin);
   getchar();
