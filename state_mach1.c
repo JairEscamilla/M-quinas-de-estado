@@ -271,15 +271,15 @@ int Registro (void){
   if ((strlen (Nuevo -> Password)) != 4){ //Verificamos que el PIN introducido sea exactamente de 4 digitos
     system ("clear");
     printf ("El PIN de un cuentahabiente debe incluir solo 4 números.\n");
-    printf ("Solicitud invalidada, ingrese nuevamente para realizar la config. inicial.\n\n");
-    exit (0);
+    printf ("Solicitud invalidada.\n");
+    return;
   }
   for (i = 0; i < 4; i ++){//Verificamos que el PIN solo contenga númeross
     if (Nuevo -> Password [i] < '0' || Nuevo -> Password [i] > '9'){
       system ("clear");
       printf ("El PIN de un cuentahabiente no puede incluir símbolos o caracteres.\n");
-      printf ("Solicitud invalidada, ingrese nuevamente para realizar la config. inicial.\n\n");
-      exit (0);
+      printf ("Solicitud invalidada.\n");
+      return;
     }
   }
   Nuevo->Saldo=0;
@@ -341,17 +341,17 @@ int SolicitarInfo_BuscarCoincidencia_SesionIniciada (void){
 int MsgIngresarDinero (void){
   system("clear");
   printf("Accion: Ingresar Dinero\n\n");
-  printf("Ingresa Dinero con d\n");
-  printf("Cancelar acción con !\n\n");
-  printf("Opcion: ");
+  printf("\t1.-Ingresa Dinero con (d)\n");
+  printf("\t2.-Cancelar acción con (!)\n\n");
+  printf("Seleccionar opcion: ");
 }
 
 int MsgRetirarDinero (void){
   system("clear");
   printf("Accion: Retirar Dinero\n\n");
-  printf("Retirar Dinero con D\n");
-  printf("Cancelar acción con #\n\n");
-  printf("Opcion: ");
+  printf("\t1.-Retirar Dinero con D\n");
+  printf("\t2.-Cancelar acción con #\n\n");
+  printf("Seleccionar opcion: ");
 }
 
 int MostrarSaldo_MsgMenu (void){
@@ -388,8 +388,8 @@ int MostrarHistorial_MsgMenu (void){
 int MsgCambiarPassword (void){
   system("clear");
   printf("Accion: Cambiar PIN\n\n");
-  printf("Cambiar PIN con Z\n");
-  printf("Cancelar Acción con $\n");
+  printf("\t1.- Cambiar PIN con (Z)\n");
+  printf("\t2.- Cancelar Acción con ($)\n");
   printf("Opción: ");
 }
 
@@ -494,12 +494,12 @@ int PedirCantidad_SaldoSuficiente (void){
 
 int PedirPassword (void){
   system("clear");
-  printf("Ingrese la nueva PIN\n");
+  printf("Ingrese nuevo PIN-> \n");
   scanf(" %[^\n]",NewPassword);
   system("clear");
   printf("Accion: Comprobando PIN\n\n");
-  printf("Comprobar PIN con p\n");
-  printf("Opción: ");
+  printf("Comprobar PIN con (p)\n");
+  printf("Seleccionar opción: ");
 }
 
 int VolverAPedirPassword_Coinciden (void){
