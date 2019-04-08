@@ -275,7 +275,7 @@ int Registro (void){
     printf("El PIN debe incluir solo numeros y únicamente incluir 4 números.\n");
     Validacion1 = 0;
     Validacion2 = 0;
-    return;
+    return 0;
   }
   Nuevo->Saldo=0;
   if(Login==1){ //Si es la primera ejecución...
@@ -369,11 +369,15 @@ int MostrarHistorial_MsgMenu (void){
   printf("Accion: Mostrar Movimientos.\n\n");
   printf("Historial de Movimientos:\n");
   Archivo = fopen(Temp,"rd");
-  while(fgets(Temp,99,Archivo)!=NULL){
-    Temp[strlen(Temp)-1]='\0';
-    puts(Temp);
+  if(Archivo!=NULL){
+    while(fgets(Temp,99,Archivo)!=NULL){
+      Temp[strlen(Temp)-1]='\0';
+      puts(Temp);
+    }
+    fclose(Archivo);
   }
-  fclose(Archivo);
+  else
+    printf("No hay movimientos en su cuenta.\n\n");
   printf("Presione Enter para continuar...\n");
   __fpurge(stdin);
   getchar();
