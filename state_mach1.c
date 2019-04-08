@@ -493,7 +493,7 @@ int PedirCantidad_SaldoSuficiente (void){
 
 int PedirPassword (void){
   system("clear");
-  printf("Ingrese nuevo PIN-> \n");
+  printf("Ingrese nuevo PIN (Recuerde ingresar 4 dígitos) -> ");
   scanf(" %[^\n]",NewPassword);
   system("clear");
   printf("Accion: Comprobando PIN\n\n");
@@ -506,6 +506,16 @@ int VolverAPedirPassword_Coinciden (void){
   char Comprobar[100];
   printf("Ingrese de nuevo la PIN\n");
   scanf(" %[^\n]",Comprobar);
+  validacion(Comprobar);
+  if(Validacion1 == 1 || Validacion2 == 1){
+    printf("El PIN debe incluir solo numeros y únicamente incluir 4 números.\n\n");
+    Validacion1 = 0;
+    Validacion2 = 0;  
+    printf("Presione Enter para continuar...\n");	  
+    __fpurge(stdin);
+    getchar();	
+    return 1;
+  }
   if((strcmp(NewPassword,Comprobar))==0){
     return 5;
   }
