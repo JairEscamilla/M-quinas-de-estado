@@ -445,8 +445,8 @@ int SumarDinero_ActualizarHistorial_MsgMenu (void){
     if((strcmp(Usuario,temp->Usuario))==0){
       temp->Saldo+=Dinero;
       Saldo=temp->Saldo;
-      strftime(Bitacora,200,"Fecha/Hora: %d/%m/%Y - %H:%M:%S",timeinfo);
-      strcat(Bitacora,", Movimiento: Ingresar Dinero, Monto Ingresado: ");
+      strftime(Bitacora,200,"%d/%m/%Y - %H:%M:%S",timeinfo);
+      strcat(Bitacora,", Mov: Ingresar Dinero, Monto Ingresado: ");
       sprintf(SaldoActual,"%d",Dinero);
       strcat(Bitacora,SaldoActual);
       strcat(Bitacora,", Saldo Actual: ");
@@ -475,8 +475,8 @@ int PedirCantidad_SaldoSuficiente (void){
       if(temp->Saldo >=Dinero){
         temp->Saldo-=Dinero;
         Saldo=temp->Saldo;
-        strftime(Bitacora,200,"Fecha/Hora: %d/%m/%Y - %H:%M:%S",timeinfo);
-        strcat(Bitacora,", Movimiento: Retirar Dinero, Monto retirado: ");
+        strftime(Bitacora,200,"%d/%m/%Y - %H:%M:%S",timeinfo);
+        strcat(Bitacora,", Mov: Retirar Dinero, Monto retirado: ");
         sprintf(SaldoActual,"%d",Dinero);
         strcat(Bitacora,SaldoActual);
         strcat(Bitacora,", Saldo Actual: ");
@@ -510,10 +510,10 @@ int VolverAPedirPassword_Coinciden (void){
   if(Validacion1 == 1 || Validacion2 == 1){
     printf("El PIN debe incluir solo numeros y únicamente incluir 4 números.\n\n");
     Validacion1 = 0;
-    Validacion2 = 0;  
-    printf("Presione Enter para continuar...\n");	  
+    Validacion2 = 0;
+    printf("Presione Enter para continuar...\n");
     __fpurge(stdin);
-    getchar();	
+    getchar();
     return 1;
   }
   if((strcmp(NewPassword,Comprobar))==0){

@@ -1,0 +1,2 @@
+08/04/2019 - 18:34:31, Mov: Ingresar Dinero, Monto Ingresado: 123, Saldo Actual: 1624
+08/04/2019 - 18:34:40, Mov: Retirar Dinero, Monto retirado: 123, Saldo Actual: 1501
